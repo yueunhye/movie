@@ -22,13 +22,22 @@ let posterPicture = document.querySelector('.poster-picture>img') //영화이미
 let page = 1
 footer.style.display = 'none'
 
+
+//이건 로딩?
+function imgLoading() {
+  const loading = document.createElement('img')
+  loading.src = './images/loading.png'
+  poster.append(loading)
+}
+
+
 form.addEventListener('submit', async (e) => {
   e.preventDefault()
   let searchVal = search.value 
   console.log(searchVal)
-  footer.style.display = 'block'
+  
     try {
-
+      imgLoading()
       const movies = await getMovie(searchVal, page=1) //await
   
       console.log(movies)
@@ -68,7 +77,7 @@ form.addEventListener('submit', async (e) => {
         }
         
       }
-      
+      footer.style.display = 'block'
   })
   
 buttonMore.addEventListener("click", async(e) =>{
