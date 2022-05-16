@@ -145,15 +145,16 @@ body {
         color: #fff;
         transform: translateY(-7px);
       }
+      .top {
+        position: absolute;
+        bottom: 50px;
+        right: 30px;
+        font-size: 50px;
+        cursor: pointer;
+      }  
     }
   }
-  .top {
-    position: absolute;
-    bottom: 50px;
-    right: 30px;
-    font-size: 50px;
-    cursor: pointer;
-  }  
+  
 }
 
 @media (max-width:768px) {

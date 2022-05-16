@@ -14,17 +14,19 @@ const buttonMore = document.querySelector('.button--more') //검색버튼
 const poster = document.querySelector('.poster') //poster
 const total = document.querySelector('.total') //totalReault 나오는 공간
 const toTop = document.querySelector('.top') //상단이동
+const footer = document.querySelector('.footer')
 const key = '7035c60c'
 let posterTitle = document.querySelector('.poster-title') //영화제목
 let posteryear = document.querySelector('.poster-year') //영화년도
 let posterPicture = document.querySelector('.poster-picture>img') //영화이미지
 let page = 1
-
+footer.style.display = 'none'
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault()
   let searchVal = search.value 
   console.log(searchVal)
+  footer.style.display = 'block'
     try {
 
       const movies = await getMovie(searchVal, page=1) //await
