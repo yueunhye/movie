@@ -1,7 +1,6 @@
 import '../scss/main.scss'
 
 
-
 async function getMovie(name, page) {
     let res = await fetch(`https://www.omdbapi.com?apikey=${key}&s=${name}&page=${page}&plot`)
     res = await res.json()
@@ -22,14 +21,10 @@ let posterPicture = document.querySelector('.poster-picture>img') //영화이미
 let page = 1
 
 
-
-
 form.addEventListener('submit', async (e) => {
   e.preventDefault()
   let searchVal = search.value 
   console.log(searchVal)
-    
-    
     try {
 
       const movies = await getMovie(searchVal, page=1) //await
@@ -60,8 +55,6 @@ form.addEventListener('submit', async (e) => {
           poster.append(template)
           
         })
-  
-
       } catch(err) {
         const getInner = total.innerHTML
         console.log(getInner)
@@ -76,26 +69,18 @@ form.addEventListener('submit', async (e) => {
       
   })
   
-
-
-
 buttonMore.addEventListener("click", async(e) =>{
-
 
   page = Number(buttonMore.textContent)
   e.preventDefault()
   page = page + 1
   buttonMore.textContent = page
-  console.log(typeof page)
-  console.log(page)
-
+  console.log(typeof page, page)
 
   const searchVal = search.value 
   const movies = await getMovie(searchVal, page)
 
-  
   const postRes = movies.Search 
-  
   postRes.forEach((element, index) => { //forEach문을 통해 Template을 postRes갯수만큼 생성
     console.log(element.Title,[index])
         let template = document.createElement('div')
@@ -111,9 +96,7 @@ buttonMore.addEventListener("click", async(e) =>{
       })
 })
 
-
 //상단이동
-
 toTop.addEventListener('click', () => {
   document.body.scrollIntoView({behavior:'smooth'})
 })

@@ -24,10 +24,8 @@ body {
     .header {
       height: 70px;
       @include flex-center;
-      
       >img {
         width: 50px;
-        
       }
       >h1 {
         font-size: 2rem;
@@ -38,7 +36,6 @@ body {
       @include flex-center;
       width: 100%;
       height: 70px;      
-      // background-color: lime;
       input {
         width: 20%;
         height: 50%;
@@ -63,7 +60,6 @@ body {
       }
     }
     .total {
-      // background-color: aquamarine;
       text-align: center;
       margin: 20px 0px;
       font-size: 2rem;
@@ -72,7 +68,6 @@ body {
     .poster{
       @include flex-center;
       flex-wrap: wrap;
-      // background-color: pink;
       height: 100%;
       width: 100%;
       .poster-template{
@@ -81,7 +76,6 @@ body {
         flex-direction: column;
         align-items: center;
         width: 100%;
-        // background-color: #424242;
         padding: 10px;
         .poster-title {
           text-align: center;
@@ -119,11 +113,10 @@ body {
           }
         }
       }
-      
-
     }
     .footer{
       margin-top: $m--size;
+      text-align: center;
       .more {
         width: 100%;
         font-size: 3rem;
@@ -135,7 +128,7 @@ body {
         margin-bottom: $m--size;
         color: $color--white;
         background-color: $color--basic;
-        width: 100%;
+        width: 80%;
         height: 100px;
         border: 1px solid #2EE59D;
         border-radius: 45px;
@@ -157,7 +150,7 @@ body {
   .top {
     position: absolute;
     bottom: 50px;
-    right: -100px;
+    right: 30px;
     font-size: 50px;
     cursor: pointer;
   }  
@@ -165,12 +158,8 @@ body {
 
 @media (max-width:768px) {
   .inner {
-    background-color: lightcoral;
     .poster {
       flex-direction: column;
-      .poster-template {
-        background-color: #2EE59D;
-      }
     }
     .footer { 
       width: 30%;
