@@ -26,7 +26,7 @@ footer.style.display = 'none'
 //이건 로딩?
 function imgLoading() {
   const loading = document.createElement('img')
-  loading.src = './images/loading.png'
+  loading.src = './images/loading.gif'
   poster.append(loading)
 }
 
