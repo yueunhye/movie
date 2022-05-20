@@ -2,7 +2,7 @@ import '../scss/main.scss'
 
 
 async function getMovie(name, page) {
-    let res = await fetch(`https://www.omdbapi.com?apikey=${key}&s=${name}&page=${page}&plot`)
+    let res = await fetch(`https://www.omdbapi.com?apikey=${key}&s=${name}&page=${page}`)
     res = await res.json()
     return res
 }
@@ -34,14 +34,14 @@ function imgLoading() {
 form.addEventListener('submit', async (e) => {
   e.preventDefault()
   let searchVal = search.value 
-  console.log(searchVal)
+  // console.log(searchVal)
   
     try {
       imgLoading()
       const movies = await getMovie(searchVal, page=1) //await
   
-      console.log(movies)
-      console.log(typeof movies.Search, movies.Search)
+      // console.log(movies)
+      // console.log(typeof movies.Search, movies.Search)
       
       const postRes = movies.Search //Search값 할당
       let mvTotalRes = movies.totalResults //movie totalResults
@@ -50,17 +50,20 @@ form.addEventListener('submit', async (e) => {
       buttonMore.innerHTML = 1 //버튼누르면 값1로 초기화
 
       total.innerHTML = `'${searchVal}' 검색결과: '${mvTotalRes}'개가 나왔습니다`
-      console.log(`검색결과: '${mvTotalRes}'개가 나왔습니다`)  
+      // console.log(`검색결과: '${mvTotalRes}'개가 나왔습니다`)  
 
       postRes.forEach((element, index) => { //forEach문을 통해 Template을 postRes갯수만큼 생성
-      console.log(element.Title,[index])
+      // console.log(element.Title,[index])
           let template = document.createElement('div')
           template.innerHTML =
           `
           <div class="poster-template">
             <div class="poster-title">${movies.Search[index].Title}</div>
             <div class="poster-year">${movies.Search[index].Year}</div>
-            <div class="poster-picture"><img src=${movies.Search[index].Poster} onError="this.src='./images/404.gif';"></div>
+            <div class="poster-picture">
+            <img src=${movies.Search[index].Poster === "N/A" 
+            ? './images/404.gif' 
+            : movies.Search[index].Poster}></div>
           </div>
           `
           poster.append(template)
@@ -68,11 +71,11 @@ form.addEventListener('submit', async (e) => {
         })
       } catch(err) {
         const getInner = total.innerHTML
-        console.log(getInner)
-        console.log(getInner.search('undefined')) //10번째이상일경우
+        // console.log(getInner)
+        // console.log(getInner.search('undefined')) //10번째이상일경우
         const outText = getInner.search('undefined')
         if(outText >= 10) {
-          console.log(outText)
+          // console.log(outText)
           total.innerHTML = `'${searchVal}' 검색결과가 없습니다`
         }
         
@@ -88,60 +91,72 @@ form.addEventListener('submit', async (e) => {
 //   e.preventDefault()
 //   page = page + 1
 //   buttonMore.textContent = page
-//   console.log(typeof page, page)
+//   // console.log(typeof page, page)
 
 //   const searchVal = search.value 
 //   const movies = await getMovie(searchVal, page)
-
+  
+  
 //   const postRes = movies.Search 
 //   postRes.forEach((element, index) => { //forEach문을 통해 Template을 postRes갯수만큼 생성
-//     console.log(element.Title,[index])
+//     // console.log(element.Title,[index])
 //         let template = document.createElement('div')
 //         template.innerHTML =
 //         `
 //         <div class="poster-template">
 //           <div class="poster-title">${movies.Search[index].Title}</div>
 //           <div class="poster-year">${movies.Search[index].Year}</div>
-//           <div class="poster-picture"><img src=${movies.Search[index].Poster} onError="this.src='./images/404.gif';"></div>
+//           <div class="poster-picture">
+//           <img src=${movies.Search[index].Poster === "N/A" 
+//           ? './images/404.gif' 
+//           : movies.Search[index].Poster}></div>
 //         </div>
 //         `
 //         poster.append(template)
 //       })
+      
 // })
 
-
-// 무한스크롤 추가
-const io = new IntersectionObserver((entries) => {
-  entries.forEach(async(entry) => {
-    if (entry.isIntersecting) {
-      console.log('entry', entry)
-      page ++;
-      console.log('page',page)
-      buttonMore.textContent = `${page} 페이지`
-      const searchVal = search.value 
-      const movies = await getMovie(searchVal, page)
-
-      const postRes = movies.Search 
-      postRes.forEach((element, index) => { 
-        console.log(element.Title,[index])
-        let template = document.createElement('div')
-        template.innerHTML =
-        `
-        <div class="poster-template">
-          <div class="poster-title">${movies.Search[index].Title}</div>
-          <div class="poster-year">${movies.Search[index].Year}</div>
-          <div class="poster-picture"><img src=${movies.Search[index].Poster} onError="this.src='./images/404.gif';"></div>
-        </div>
-        `
-        poster.append(template)
-      })
-    }
+//무한스크롤 추가
+async function mvmv() {
+  const searchVal = search.value 
+  const movies = await getMovie(searchVal, page)
+  const postRes = movies.Search; 
+  postRes.forEach((element, index) => { 
+    let template = document.createElement('div')
+    template.innerHTML =
+    `
+    <div class="poster-template">
+      <div class="poster-title">${movies.Search[index].Title}</div>
+      <div class="poster-year">${movies.Search[index].Year}</div>
+      <div class="poster-picture">
+      <img src=${movies.Search[index].Poster === "N/A" 
+      ? './images/404.gif' 
+      : movies.Search[index].Poster}></div>
+    </div>
+    `
+    poster.append(template)
   })
+}
+
+const io = new IntersectionObserver((entries) => {
+  
+  entries.forEach((entry) => {
+    
+    if (entry.isIntersecting) {
+      
+      buttonMore.textContent = `${page} 페이지`
+      page ++;
+      mvmv()
+    }
+    
+  })  
 })
 io.observe(buttonMore)
-
 
 //상단이동
 toTop.addEventListener('click', () => {
   document.body.scrollIntoView({behavior:'smooth'})
 })
+
+
