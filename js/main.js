@@ -20,7 +20,7 @@ let posterTitle = document.querySelector('.poster-title') //영화제목
 let posteryear = document.querySelector('.poster-year') //영화년도
 let posterPicture = document.querySelector('.poster-picture>img') //영화이미지
 let page = 1
-footer.style.display = 'none'
+footer.style.display = 'none' //더보기 버튼
 
 
 //이건 로딩?
@@ -80,20 +80,50 @@ form.addEventListener('submit', async (e) => {
       footer.style.display = 'block'
   })
   
-buttonMore.addEventListener("click", async(e) =>{
+// 더보기 버튼클릭
 
-  page = Number(buttonMore.textContent)
-  e.preventDefault()
-  page = page + 1
-  buttonMore.textContent = page
-  console.log(typeof page, page)
+// buttonMore.addEventListener("click", async(e) =>{
 
-  const searchVal = search.value 
-  const movies = await getMovie(searchVal, page)
+//   page = Number(buttonMore.textContent)
+//   e.preventDefault()
+//   page = page + 1
+//   buttonMore.textContent = page
+//   console.log(typeof page, page)
 
-  const postRes = movies.Search 
-  postRes.forEach((element, index) => { //forEach문을 통해 Template을 postRes갯수만큼 생성
-    console.log(element.Title,[index])
+//   const searchVal = search.value 
+//   const movies = await getMovie(searchVal, page)
+
+//   const postRes = movies.Search 
+//   postRes.forEach((element, index) => { //forEach문을 통해 Template을 postRes갯수만큼 생성
+//     console.log(element.Title,[index])
+//         let template = document.createElement('div')
+//         template.innerHTML =
+//         `
+//         <div class="poster-template">
+//           <div class="poster-title">${movies.Search[index].Title}</div>
+//           <div class="poster-year">${movies.Search[index].Year}</div>
+//           <div class="poster-picture"><img src=${movies.Search[index].Poster} onError="this.src='./images/404.gif';"></div>
+//         </div>
+//         `
+//         poster.append(template)
+//       })
+// })
+
+
+// 무한스크롤 추가
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(async(entry) => {
+    if (entry.isIntersecting) {
+      console.log('entry', entry)
+      page ++;
+      console.log('page',page)
+      buttonMore.textContent = `${page} 페이지`
+      const searchVal = search.value 
+      const movies = await getMovie(searchVal, page)
+
+      const postRes = movies.Search 
+      postRes.forEach((element, index) => { 
+        console.log(element.Title,[index])
         let template = document.createElement('div')
         template.innerHTML =
         `
@@ -105,13 +135,13 @@ buttonMore.addEventListener("click", async(e) =>{
         `
         poster.append(template)
       })
+    }
+  })
 })
+io.observe(buttonMore)
+
 
 //상단이동
 toTop.addEventListener('click', () => {
   document.body.scrollIntoView({behavior:'smooth'})
 })
-
-
-
-
